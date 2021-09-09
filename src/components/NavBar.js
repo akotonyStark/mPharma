@@ -79,7 +79,6 @@ export default function NavBar({ products, setProducts, handleClickOpen }) {
 
   let filteredItems = []
   const handleFilterItems = (e) => {
-    //setQuery(e.target.value)
     filteredItems = products.filter((item) =>
       item.name.toLowerCase().includes(e.target.value.toLowerCase())
     )

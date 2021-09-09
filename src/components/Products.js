@@ -15,7 +15,7 @@ const columns = [
     headerName: 'Price (GHS)',
     type: 'number',
     width: 250,
-    editable: true,
+    editable: false,
   },
   {
     field: 'prevPrice',

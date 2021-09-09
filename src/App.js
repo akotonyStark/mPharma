@@ -28,13 +28,16 @@ function App() {
             prevPrice: item.prices[1].price,
           }
           initData.push(newObj)
+          localStorage.setItem('initData', JSON.stringify(initData))
         })
         setIsloading(false)
         setProducts(initData)
       }
     } catch (error) {
       setIsloading(false)
-      setProducts([])
+      const offlineData = localStorage.getItem('initData')
+      console.log(offlineData)
+      setProducts(JSON.parse(offlineData))
       console.log(error)
     }
 
@@ -75,7 +78,13 @@ function App() {
         handleClickOpen={handleClickOpen}
       />
       {isLoading ? <Loader /> : <Products products={products} />}
-      <AddModal handleClickOpen={handleClickOpen} open={open} />
+      <AddModal
+        handleClickOpen={handleClickOpen}
+        open={open}
+        products={products}
+        setProducts={setProducts}
+        setOpen={setOpen}
+      />
     </div>
   )
 }

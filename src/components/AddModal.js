@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -8,6 +8,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
 
 const styles = (theme) => ({
   root: {
@@ -53,40 +54,80 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions)
 
-export default function AddModal({ open, handleClickOpen }) {
+export default function AddModal({
+  open,
+  handleClickOpen,
+  setOpen,
+  setProducts,
+}) {
+  const [productName, setProductName] = useState('')
+  const [productPrice, setProductPrice] = useState('')
+
+  const priceRef = useRef(null)
+  const prodNameRef = useRef(null)
+
+  const handleFormSubmit = () => {
+    let newEntry = {
+      id: Math.floor(Math.random() * 1000 + 1),
+      name: productName,
+      currentPrice: Number(productPrice),
+      prevPrice: 0,
+    }
+
+    console.log(newEntry)
+    setProducts((prevList) => {
+      return [...prevList, newEntry]
+    })
+
+    setOpen(false)
+    setProductName('')
+    setProductPrice('')
+  }
+
+  useEffect(() => {
+    // prodNameRef.current.focus()
+    return () => {
+      //cleanup
+    }
+  }, [])
+
   return (
     <div>
-      <Button variant='outlined' color='primary' onClick={handleClickOpen}>
-        Open dialog
-      </Button>
       <Dialog
         onClose={handleClickOpen}
         aria-labelledby='customized-dialog-title'
         open={open}
       >
         <DialogTitle id='customized-dialog-title' onClose={handleClickOpen}>
-          Modal title
+          Add Product
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          <TextField
+            autoFocus
+            margin='dense'
+            id='productName'
+            label='Product Name'
+            type='text'
+            fullWidth
+            ref={prodNameRef}
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            id='productPrice'
+            label='Price'
+            type='number'
+            fullWidth
+            ref={priceRef}
+            value={productPrice}
+            onChange={(e) => setProductPrice(e.target.value)}
+          />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClickOpen} color='primary'>
-            Save changes
+          <Button autoFocus onClick={handleFormSubmit} color='primary'>
+            Save
           </Button>
         </DialogActions>
       </Dialog>
