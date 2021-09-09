@@ -1,16 +1,17 @@
-import logo from './logo.svg'
 import './App.css'
 import NavBar from './components/NavBar'
 import Products from './components/Products'
-import { useState, useEffect } from 'react'
-import Fab from '@material-ui/core/Fab'
-import AddIcon from '@material-ui/icons/Add'
+import { React, useState, useEffect } from 'react'
 import axios from 'axios'
+import Loader from './components/Loader'
+import AddModal from './components/AddModal'
 
 let initData = []
 
 function App() {
   const [products, setProducts] = useState([])
+  const [isLoading, setIsloading] = useState(true)
+  const [open, setOpen] = useState(false)
 
   const getData = async () => {
     try {
@@ -28,9 +29,11 @@ function App() {
           }
           initData.push(newObj)
         })
+        setIsloading(false)
         setProducts(initData)
       }
     } catch (error) {
+      setIsloading(false)
       setProducts([])
       console.log(error)
     }
@@ -60,13 +63,19 @@ function App() {
     getData()
   }, [])
 
+  const handleClickOpen = () => {
+    setOpen(!open)
+  }
+
   return (
     <div className='App'>
-      <NavBar />
-      <Products products={products} />
-      {/* <Fab color='primary' aria-label='add' style={{ float: 'right' }}>
-        <AddIcon />
-      </Fab> */}
+      <NavBar
+        setProducts={setProducts}
+        products={products}
+        handleClickOpen={handleClickOpen}
+      />
+      {isLoading ? <Loader /> : <Products products={products} />}
+      <AddModal handleClickOpen={handleClickOpen} open={open} />
     </div>
   )
 }
