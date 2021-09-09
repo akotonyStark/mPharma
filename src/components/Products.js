@@ -21,7 +21,7 @@ const columns = [
     editable: false,
   },
   {
-    field: 'latestPrice',
+    field: 'currentPrice',
     headerName: 'Price (GHS)',
     type: 'number',
     width: 250,
@@ -43,7 +43,10 @@ function Products({ products }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   return (
-    <div style={{ margin: '0 auto', height: 600, width: '50%' }}>
+    <div
+      className='prod'
+      style={{ margin: '0 auto', height: 600, width: '50%', padding: '20px' }}
+    >
       <DataGrid
         rows={products}
         columns={columns}
