@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -55,13 +55,27 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions)
 
 export default function AddModal({
+  data,
   open,
   handleClickOpen,
   setOpen,
   setProducts,
+  liveData,
+  setLiveData,
+  modalTitle,
+  productName,
+  setProductName,
+  productPrice,
+  setProductPrice,
+  showUpdate,
+  setShowUpdate,
+  hideSave,
+  setHideSave,
+  updateObject,
+  setUpdateObject,
 }) {
-  const [productName, setProductName] = useState('')
-  const [productPrice, setProductPrice] = useState('')
+  // const [productName, setProductName] = useState('')
+  // const [productPrice, setProductPrice] = useState('')
 
   const priceRef = useRef(null)
   const prodNameRef = useRef(null)
@@ -74,22 +88,35 @@ export default function AddModal({
       prevPrice: 0,
     }
 
-    console.log(newEntry)
-    setProducts((prevList) => {
-      return [...prevList, newEntry]
-    })
+    //console.log(newEntry)
+    setProducts((prevList) => [...liveData, newEntry])
+    data = [...liveData, newEntry]
+    setLiveData(data)
+
+    // console.log('Context Data:', liveData)
+    // console.log('UpdatedLive: ', data)
 
     setOpen(false)
     setProductName('')
     setProductPrice('')
   }
 
-  useEffect(() => {
-    // prodNameRef.current.focus()
-    return () => {
-      //cleanup
+  const handleFormUpdate = () => {
+    let inmemoryItem = JSON.parse(localStorage.getItem('selecteditem'))
+    let newObj = {
+      id: inmemoryItem.id,
+      name: productName,
+      currentPrice: productPrice,
+      prevPrice: inmemoryItem.currentPrice,
     }
-  }, [])
+    setProducts((prevList) => [...liveData, newObj])
+    console.log('Record was: ', inmemoryItem)
+    console.log('Updated with: ', newObj)
+
+    setOpen(false)
+    setProductName('')
+    setProductPrice('')
+  }
 
   return (
     <div>
@@ -99,7 +126,7 @@ export default function AddModal({
         open={open}
       >
         <DialogTitle id='customized-dialog-title' onClose={handleClickOpen}>
-          Add Product
+          {modalTitle}
         </DialogTitle>
         <DialogContent dividers>
           <TextField
@@ -126,9 +153,30 @@ export default function AddModal({
           />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleFormSubmit} color='primary'>
-            Save
-          </Button>
+          {!hideSave ? (
+            <Button
+              variant='contained'
+              onClick={handleFormSubmit}
+              style={{
+                backgroundColor: '#ff5100',
+                color: 'white',
+              }}
+            >
+              Save
+            </Button>
+          ) : null}
+          {showUpdate ? (
+            <Button
+              variant='contained'
+              onClick={handleFormUpdate}
+              style={{
+                backgroundColor: '#1383b5',
+                color: 'white',
+              }}
+            >
+              Update
+            </Button>
+          ) : null}
         </DialogActions>
       </Dialog>
     </div>

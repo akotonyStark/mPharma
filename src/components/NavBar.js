@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   inputRoot: {
     color: 'inherit',
   },
+
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -74,16 +75,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function NavBar({ products, setProducts, handleClickOpen }) {
+export default function NavBar({ setProducts, handleClickOpen, liveData }) {
   const classes = useStyles()
 
+  const searchRef = React.useRef(null)
+  // let x = searchRef.current
+  // console.log({ x })
+
+  const initialData = [...liveData]
+  //console.log('Live data:', initialData)
   let filteredItems = []
+
   const handleFilterItems = (e) => {
-    filteredItems = products.filter((item) =>
-      item.name.toLowerCase().includes(e.target.value.toLowerCase())
-    )
-    console.log(filteredItems)
-    setProducts(filteredItems)
+    if (e.target.value.length < 1) {
+      setProducts(initialData)
+    } else {
+      filteredItems = liveData.filter((item) =>
+        item.name.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setProducts(filteredItems)
+    }
   }
 
   const menuId = 'primary-search-account-menu'
@@ -95,8 +106,6 @@ export default function NavBar({ products, setProducts, handleClickOpen }) {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
     ></Menu>
   )
-
-  const mobileMenuId = 'primary-search-account-menu-mobile'
 
   return (
     <div className={classes.grow}>
@@ -118,13 +127,15 @@ export default function NavBar({ products, setProducts, handleClickOpen }) {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder='Search…'
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-              onChange={handleFilterItems}
+              autoFocus
+              placeholder='Search product…'
+              onInput={handleFilterItems}
+              ref={searchRef}
             />
           </div>
           <div className={classes.grow} />

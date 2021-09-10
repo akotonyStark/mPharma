@@ -1,7 +1,7 @@
 import './App.css'
 import NavBar from './components/NavBar'
 import Products from './components/Products'
-import { React, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Loader from './components/Loader'
 import AddModal from './components/AddModal'
@@ -12,6 +12,13 @@ function App() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsloading] = useState(true)
   const [open, setOpen] = useState(false)
+  const [liveData, setLiveData] = useState(initData)
+  const [modalTitle, setModalTitle] = useState('Add Product')
+  const [productName, setProductName] = useState('')
+  const [productPrice, setProductPrice] = useState('')
+  const [showUpdate, setShowUpdate] = useState(false)
+  const [hideSave, setHideSave] = useState(false)
+  const [updateObject, setUpdateObject] = useState({})
 
   const getData = async () => {
     try {
@@ -28,6 +35,7 @@ function App() {
             prevPrice: item.prices[1].price,
           }
           initData.push(newObj)
+          setLiveData(initData)
           localStorage.setItem('initData', JSON.stringify(initData))
         })
         setIsloading(false)
@@ -36,7 +44,8 @@ function App() {
     } catch (error) {
       setIsloading(false)
       const offlineData = localStorage.getItem('initData')
-      console.log(offlineData)
+      //console.log(offlineData)
+      setLiveData(JSON.parse(offlineData))
       setProducts(JSON.parse(offlineData))
       console.log(error)
     }
@@ -62,28 +71,68 @@ function App() {
     //   })
     //   .finally(console.log('done'))
   }
+
   useEffect(() => {
     getData()
   }, [])
 
   const handleClickOpen = () => {
     setOpen(!open)
+    setProductName('')
+    setProductPrice('')
+    setModalTitle('Add Product')
+    setShowUpdate(false)
+    setHideSave(false)
   }
 
   return (
     <div className='App'>
       <NavBar
         setProducts={setProducts}
-        products={products}
         handleClickOpen={handleClickOpen}
+        data={initData}
+        liveData={liveData}
+        setLiveData={setLiveData}
       />
-      {isLoading ? <Loader /> : <Products products={products} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Products
+          products={products}
+          setOpen={setOpen}
+          modalTitle={modalTitle}
+          setModalTitle={setModalTitle}
+          productName={productName}
+          setProductName={setProductName}
+          productPrice={productPrice}
+          setProductPrice={setProductPrice}
+          showUpdate={showUpdate}
+          setShowUpdate={setShowUpdate}
+          hideSave={hideSave}
+          setHideSave={setHideSave}
+        />
+      )}
       <AddModal
         handleClickOpen={handleClickOpen}
         open={open}
         products={products}
         setProducts={setProducts}
         setOpen={setOpen}
+        data={initData}
+        liveData={liveData}
+        setLiveData={setLiveData}
+        modalTitle={modalTitle}
+        setModalTitle={setModalTitle}
+        productName={productName}
+        setProductName={setProductName}
+        productPrice={productPrice}
+        setProductPrice={setProductPrice}
+        showUpdate={showUpdate}
+        setShowUpdate={setShowUpdate}
+        hideSave={hideSave}
+        setHideSave={setHideSave}
+        updateObject={updateObject}
+        setUpdateObject={setUpdateObject}
       />
     </div>
   )

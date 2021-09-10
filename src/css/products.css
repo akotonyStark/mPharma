@@ -1,14 +1,16 @@
 @media screen and (min-width: 400px) {
   .prod {
+    background-color: #f8f8ff;
     margin: 0 auto;
-    height: 600px;
-    width: 60%;
+    height: 500px;
+    width: 1000px;
     padding: 20px;
   }
 }
 
 @media screen and (max-width: 970px) {
   .prod {
+    background-color: #f8f8ff;
     margin: 0 auto;
     height: 600px;
     width: 100%;
