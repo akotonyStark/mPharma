@@ -68,14 +68,11 @@ export default function AddModal({
   productPrice,
   setProductPrice,
   showUpdate,
-  setShowUpdate,
   hideSave,
-  setHideSave,
-  updateObject,
-  setUpdateObject,
+  setConfirmOpen
+ 
 }) {
-  // const [productName, setProductName] = useState('')
-  // const [productPrice, setProductPrice] = useState('')
+ 
 
   const priceRef = useRef(null)
   const prodNameRef = useRef(null)
@@ -85,7 +82,7 @@ export default function AddModal({
       id: Math.floor(Math.random() * 1000 + 1),
       name: productName,
       currentPrice: Number(productPrice),
-      prevPrice: 0,
+      prevPrice: Number(productPrice),
     }
 
     //console.log(newEntry)

@@ -9,6 +9,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -120,7 +121,7 @@ export default function NavBar({ setProducts, handleClickOpen, liveData }) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant='h6' noWrap>
-            reactJS
+            mPharma
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -143,8 +144,13 @@ export default function NavBar({ setProducts, handleClickOpen, liveData }) {
             variant='contained'
             color='secondary'
             onClick={handleClickOpen}
+            style={{
+              marginRight: '10px',
+              backgroundColor: '#fecece',
+              color: 'black',
+            }}
           >
-            + Add Product
+            <AddIcon/> Add Product
           </Button>
         </Toolbar>
       </AppBar>

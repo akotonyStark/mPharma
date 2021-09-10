@@ -13,6 +13,8 @@ function Products({
   setProductPrice,
   setShowUpdate,
   setHideSave,
+  isOpen,
+  setConfirmModalOpen
 }) {
   const dataGridRef = useRef(null)
 
@@ -62,16 +64,16 @@ function Products({
   }
 
   const deleteEventHandler = () => {
-    setOpen(true)
-    //setModalTitle('Delete Form')
+    setConfirmModalOpen(true)
   }
+  
   const renderActions = (e) => {
     return (
       <div>
         <Button
           variant='contained'
           style={{
-            marginRight: '20px',
+            marginRight: '10px',
             backgroundColor: '#1383b5',
             color: 'white',
           }}
@@ -93,7 +95,7 @@ function Products({
   }
 
   return (
-    <div className='prod' style={{ marginTop: '50px' }}>
+    <div className='prod' style={{ marginTop: '50px', boxShadow:'2px 2px 2px 2px #cecece' }}>
       <DataGrid
         rows={products}
         columns={columns}

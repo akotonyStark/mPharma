@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Loader from './components/Loader'
 import AddModal from './components/AddModal'
+import ConfirmationModal from './components/ConfirmationModal'
 
 let initData = []
 
@@ -12,13 +13,14 @@ function App() {
   const [products, setProducts] = useState([])
   const [isLoading, setIsloading] = useState(true)
   const [open, setOpen] = useState(false)
+  const [isOpen, setConfirmModalOpen] = useState(false);
   const [liveData, setLiveData] = useState(initData)
   const [modalTitle, setModalTitle] = useState('Add Product')
   const [productName, setProductName] = useState('')
   const [productPrice, setProductPrice] = useState('')
   const [showUpdate, setShowUpdate] = useState(false)
   const [hideSave, setHideSave] = useState(false)
-  const [updateObject, setUpdateObject] = useState({})
+
 
   const getData = async () => {
     try {
@@ -94,6 +96,16 @@ function App() {
         liveData={liveData}
         setLiveData={setLiveData}
       />
+
+      <ConfirmationModal
+        isOpen = {isOpen}
+        setConfirmModalOpen = {setConfirmModalOpen}
+        products={products}
+        setProducts={setProducts}
+        liveData={liveData}
+        setLiveData={setLiveData}/>
+
+
       {isLoading ? (
         <Loader />
       ) : (
@@ -110,6 +122,8 @@ function App() {
           setShowUpdate={setShowUpdate}
           hideSave={hideSave}
           setHideSave={setHideSave}
+          setConfirmModalOpen = {setConfirmModalOpen} 
+          isOpen = {isOpen}
         />
       )}
       <AddModal
@@ -129,11 +143,10 @@ function App() {
         setProductPrice={setProductPrice}
         showUpdate={showUpdate}
         setShowUpdate={setShowUpdate}
-        hideSave={hideSave}
-        setHideSave={setHideSave}
-        updateObject={updateObject}
-        setUpdateObject={setUpdateObject}
+        hideSave={hideSave}  
+        setConfirmModalOpen = {setConfirmModalOpen}     
       />
+    
     </div>
   )
 }
