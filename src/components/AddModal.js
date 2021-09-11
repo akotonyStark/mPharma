@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+//import { useSelector, useDispatch } from 'react-redux'
 
 const styles = (theme) => ({
   root: {
@@ -57,7 +58,7 @@ const DialogActions = withStyles((theme) => ({
 export default function AddModal({
   data,
   open,
-  handleClickOpen,
+  handleAddProductModal,
   setOpen,
   setProducts,
   liveData,
@@ -69,15 +70,19 @@ export default function AddModal({
   setProductPrice,
   showUpdate,
   hideSave,
-  setConfirmOpen
+  notify
  
 }) {
  
 
-  const priceRef = useRef(null)
-  const prodNameRef = useRef(null)
-
   const handleFormSubmit = () => {
+
+    if(productName.length < 1  || productPrice.length < 1){
+      return notify(`Please make sure you have filled all fields`, 'warning')
+    }
+    if(Number(productPrice) < 1){
+      return notify(`Invalid item price`, 'info')
+    }
     let newEntry = {
       id: Math.floor(Math.random() * 1000 + 1),
       name: productName,
@@ -87,11 +92,12 @@ export default function AddModal({
 
     //console.log(newEntry)
     setProducts((prevList) => [...liveData, newEntry])
-    data = [...liveData, newEntry]
-    setLiveData(data)
+    notify(`${newEntry.name} successfully added to records`, 'success')
 
-    // console.log('Context Data:', liveData)
-    // console.log('UpdatedLive: ', data)
+    data = [...liveData, newEntry]
+
+    //update search data as well
+    setLiveData(data)
 
     setOpen(false)
     setProductName('')
@@ -100,15 +106,25 @@ export default function AddModal({
 
   const handleFormUpdate = () => {
     let inmemoryItem = JSON.parse(localStorage.getItem('selecteditem'))
+
     let newObj = {
       id: inmemoryItem.id,
       name: productName,
       currentPrice: productPrice,
       prevPrice: inmemoryItem.currentPrice,
     }
+
+    if(newObj.name.length < 1  || newObj.currentPrice.length < 1){
+      return notify(`Please make sure you have filled all fields`, 'warning')
+    }
+    if(newObj.currentPrice < 1){
+      return notify(`Invalid item price`, 'info')
+    }
     setProducts((prevList) => [...liveData, newObj])
+
     console.log('Record was: ', inmemoryItem)
     console.log('Updated with: ', newObj)
+    notify(`${newObj.name} has been updated`, 'success')
 
     setOpen(false)
     setProductName('')
@@ -118,33 +134,30 @@ export default function AddModal({
   return (
     <div>
       <Dialog
-        onClose={handleClickOpen}
+        onClose={handleAddProductModal}
         aria-labelledby='customized-dialog-title'
         open={open}
       >
-        <DialogTitle id='customized-dialog-title' onClose={handleClickOpen}>
+        <DialogTitle id='customized-dialog-title' onClose={handleAddProductModal}>
           {modalTitle}
         </DialogTitle>
         <DialogContent dividers>
           <TextField
-            autoFocus
+            autoFocus = {true}
             margin='dense'
             id='productName'
             label='Product Name'
             type='text'
             fullWidth
-            ref={prodNameRef}
-            value={productName}
+            value={productName}           
             onChange={(e) => setProductName(e.target.value)}
           />
-          <TextField
-            autoFocus
+          <TextField            
             margin='dense'
             id='productPrice'
             label='Price'
             type='number'
             fullWidth
-            ref={priceRef}
             value={productPrice}
             onChange={(e) => setProductPrice(e.target.value)}
           />

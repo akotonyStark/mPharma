@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function NavBar({ setProducts, handleClickOpen, liveData }) {
+export default function NavBar({ setProducts, handleAddProductModal, liveData }) {
   const classes = useStyles()
 
   const searchRef = React.useRef(null)
@@ -143,7 +143,7 @@ export default function NavBar({ setProducts, handleClickOpen, liveData }) {
           <Button
             variant='contained'
             color='secondary'
-            onClick={handleClickOpen}
+            onClick={handleAddProductModal}
             style={{
               marginRight: '10px',
               backgroundColor: '#fecece',

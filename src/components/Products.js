@@ -4,6 +4,7 @@ import '../css/products.css'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
+//import { useSelector } from 'react-redux'
 
 function Products({
   products,
@@ -49,6 +50,7 @@ function Products({
     },
   ]
 
+
   const getSelectedData = (e) => {
     let data = e.row
     setProductName(data.name)
@@ -66,7 +68,7 @@ function Products({
   const deleteEventHandler = () => {
     setConfirmModalOpen(true)
   }
-  
+
   const renderActions = (e) => {
     return (
       <div>
@@ -97,6 +99,7 @@ function Products({
   return (
     <div className='prod' style={{ marginTop: '50px', boxShadow:'2px 2px 2px 2px #cecece' }}>
       <DataGrid
+        //rows={payload}
         rows={products}
         columns={columns}
         pageSize={10}

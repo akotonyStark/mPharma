@@ -8,21 +8,27 @@ import AddModal from './components/AddModal'
 import ConfirmationModal from './components/ConfirmationModal'
 import Toastify from './components/Toastify'
 import { toast } from 'react-toastify';
+import { useSelector, useDispatch } from 'react-redux'
 
 let initData = []
 
 function App() {
   const [products, setProducts] = useState([])
+  const [liveData, setLiveData] = useState(initData)
   const [isLoading, setIsloading] = useState(true)
   const [open, setOpen] = useState(false)
-  const [isOpen, setConfirmModalOpen] = useState(false);
-  const [liveData, setLiveData] = useState(initData)
+  const [isOpen, setConfirmModalOpen] = useState(false);  
   const [modalTitle, setModalTitle] = useState('Add Product')
   const [productName, setProductName] = useState('')
   const [productPrice, setProductPrice] = useState('')
   const [showUpdate, setShowUpdate] = useState(false)
   const [hideSave, setHideSave] = useState(false)
   const [toastrMessage, setToastMessage] = useState('Notification')
+
+  const dispatch = useDispatch()  
+  const seedData = useSelector(state => products)
+  //console.log("Seed Data:" , seedData)
+  
 
 
   const getData = async () => {
@@ -39,12 +45,19 @@ function App() {
             currentPrice: item.prices[0].price,
             prevPrice: item.prices[1].price,
           }
-          initData.push(newObj)
-          setLiveData(initData)
-          localStorage.setItem('initData', JSON.stringify(initData))
+          initData.push(newObj)          
         })
+        //setting copy of init data to liveData for search implementation
+        setLiveData(initData)
+        //setLiveData(seedData)
+
+        //cacheing in memory for offline use
+        localStorage.setItem('initData', JSON.stringify(initData))
         setIsloading(false)
+
+        //dispatch({ type: 'UPDATE_DATA', products: initData });
         setProducts(initData)
+        //setProducts(seedData)
       }
     } catch (error) {
       setIsloading(false)
@@ -81,7 +94,8 @@ function App() {
     getData()
   }, [])
 
-  const handleClickOpen = () => {
+  const handleAddProductModal = () => {
+ 
     setOpen(!open)
     setProductName('')
     setProductPrice('')
@@ -130,13 +144,12 @@ function App() {
     }
 }
     
-   
 
   return (
     <div className='App'>
       <NavBar
         setProducts={setProducts}
-        handleClickOpen={handleClickOpen}
+        handleAddProductModal={handleAddProductModal}
         data={initData}
         liveData={liveData}
         setLiveData={setLiveData}
@@ -159,6 +172,7 @@ function App() {
       ) : (
         <Products
           products={products}
+          //products={payload}
           setOpen={setOpen}
           modalTitle={modalTitle}
           setModalTitle={setModalTitle}
@@ -175,9 +189,10 @@ function App() {
         />
       )}
       <AddModal
-        handleClickOpen={handleClickOpen}
+        handleAddProductModal={handleAddProductModal}
         open={open}
         products={products}
+        //products={payload}
         setProducts={setProducts}
         setOpen={setOpen}
         data={initData}

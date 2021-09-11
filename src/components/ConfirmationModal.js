@@ -18,7 +18,7 @@ export default function ConfirmationModal({isOpen, setConfirmModalOpen, products
     let inmemoryItem = JSON.parse(localStorage.getItem('selecteditem'))
     //console.log(inmemoryItem)
 
-    let filteredItems = products.filter(item => item.id != inmemoryItem.id)
+    let filteredItems = products.filter(item => item.id !== inmemoryItem.id)
     //console.log("Filtered Items:" , filteredItems)
     setProducts(prevState => filteredItems)
     setLiveData(filteredItems)
