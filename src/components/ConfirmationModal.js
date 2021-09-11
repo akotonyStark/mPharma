@@ -11,7 +11,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ConfirmationModal({isOpen, setConfirmModalOpen, products, setProducts, liveData, setLiveData}) {
+export default function ConfirmationModal({isOpen, setConfirmModalOpen, products, setProducts, liveData, setLiveData, notify,}) {
  
 
   const handleDelete = () => {
@@ -22,7 +22,8 @@ export default function ConfirmationModal({isOpen, setConfirmModalOpen, products
     //console.log("Filtered Items:" , filteredItems)
     setProducts(prevState => filteredItems)
     setLiveData(filteredItems)
-    setConfirmModalOpen(!isOpen);
+    setConfirmModalOpen(!isOpen);   
+    notify(`${inmemoryItem.name} successfully removed from records`, 'success')
   };
 
   const handleClose = () => {

@@ -6,6 +6,8 @@ import axios from 'axios'
 import Loader from './components/Loader'
 import AddModal from './components/AddModal'
 import ConfirmationModal from './components/ConfirmationModal'
+import Toastify from './components/Toastify'
+import { toast } from 'react-toastify';
 
 let initData = []
 
@@ -20,6 +22,7 @@ function App() {
   const [productPrice, setProductPrice] = useState('')
   const [showUpdate, setShowUpdate] = useState(false)
   const [hideSave, setHideSave] = useState(false)
+  const [toastrMessage, setToastMessage] = useState('Notification')
 
 
   const getData = async () => {
@@ -87,6 +90,48 @@ function App() {
     setHideSave(false)
   }
 
+  const notify = (toastrMessage, type) => {
+    setToastMessage(toastrMessage)
+    switch(type){
+      case 'warning':
+        toast.warning(toastrMessage, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      break;
+
+      case 'success':
+        toast.success(toastrMessage, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+          break;
+
+      default:
+        toast.info(toastrMessage, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+    }
+}
+    
+   
+
   return (
     <div className='App'>
       <NavBar
@@ -97,13 +142,16 @@ function App() {
         setLiveData={setLiveData}
       />
 
+      <Toastify  />
       <ConfirmationModal
         isOpen = {isOpen}
         setConfirmModalOpen = {setConfirmModalOpen}
         products={products}
         setProducts={setProducts}
         liveData={liveData}
-        setLiveData={setLiveData}/>
+        setLiveData={setLiveData}
+        notify = {notify}     
+        setToastMessage ={setToastMessage}/>
 
 
       {isLoading ? (
@@ -144,7 +192,9 @@ function App() {
         showUpdate={showUpdate}
         setShowUpdate={setShowUpdate}
         hideSave={hideSave}  
-        setConfirmModalOpen = {setConfirmModalOpen}     
+        setConfirmModalOpen = {setConfirmModalOpen}
+        notify = {notify}    
+        toastrMessage = {toastrMessage}
       />
     
     </div>
