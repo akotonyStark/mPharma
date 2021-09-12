@@ -8,7 +8,7 @@ import AddModal from './components/AddModal'
 import ConfirmationModal from './components/ConfirmationModal'
 import Toastify from './components/Toastify'
 import { toast } from 'react-toastify';
-import { useSelector, useDispatch } from 'react-redux'
+//import { useSelector, useDispatch } from 'react-redux'
 
 let initData = []
 
