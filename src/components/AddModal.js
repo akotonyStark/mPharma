@@ -167,7 +167,7 @@ export default function AddModal({
         <DialogActions>
           {!hideSave ? (
             <Button
-              title='saveButton'
+              title='Add Record'
               variant='contained'
               onClick={handleFormSubmit}
               style={{

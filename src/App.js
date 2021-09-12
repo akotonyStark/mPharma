@@ -34,7 +34,7 @@ function App() {
   const getData = async () => {
     try {
       const result = await fetch(
-        'http://www.mocky.io/v2/5c3e15e63500006e003e9795'
+        'https://www.mocky.io/v2/5c3e15e63500006e003e9795'
       )
       const data = await result.json()
       if (data.products) {

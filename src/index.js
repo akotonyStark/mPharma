@@ -6,20 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
-// const addData = () => {
-//   return {
-//     type: 'UPDATE_DATA',
-//     products: [{
-//       productName: 'One',
-//       productPrice: 90
-//     }]
-//   }
-// }
-// console.log(store.getState())
-// store.subscribe(() => console.log(store.getState()))
-// store.dispatch(addData())
-// console.log(store.getState())
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

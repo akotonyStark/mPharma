@@ -142,6 +142,7 @@ export default function NavBar({ setProducts, handleAddProductModal, liveData })
           </div>
           <div className={classes.grow} />
           <Button
+            title = 'Add Product'
             variant='contained'
             color='secondary'
             onClick={handleAddProductModal}
@@ -151,7 +152,7 @@ export default function NavBar({ setProducts, handleAddProductModal, liveData })
               color: 'black',
             }}
           >
-            <AddIcon/> Add Product
+            <AddIcon/> Add 
           </Button>
         </Toolbar>
       </AppBar>
