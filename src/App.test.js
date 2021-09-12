@@ -17,8 +17,8 @@ it('checkAddModalRender', () => {
 
 describe('clickSaveButton', ()=> {
   it('onClick', () => {
-    const {queryByTitle} = render(<AddModal/>)
-    const saveButton = queryByTitle('saveButton')
+    const {queryByDisplayValue} = render(<AddModal/>)
+    const saveButton = queryByDisplayValue('Save')
     expect(saveButton.innerHTML).toBe('Save')
     fireEvent.click(saveButton)
     
