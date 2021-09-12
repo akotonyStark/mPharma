@@ -2,13 +2,13 @@ import './App.css'
 import NavBar from './components/NavBar'
 import Products from './components/Products'
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import Loader from './components/Loader'
 import AddModal from './components/AddModal'
 import ConfirmationModal from './components/ConfirmationModal'
 import Toastify from './components/Toastify'
 import { toast } from 'react-toastify';
-import { useSelector, useDispatch } from 'react-redux'
+// import { useSelector, useDispatch } from 'react-redux'
 
 let initData = []
 
