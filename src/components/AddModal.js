@@ -149,7 +149,8 @@ export default function AddModal({
             label='Product Name'
             type='text'
             fullWidth
-            value={productName}           
+            value={productName}  
+            title='productName'         
             onChange={(e) => setProductName(e.target.value)}
           />
           <TextField            
@@ -159,12 +160,14 @@ export default function AddModal({
             type='number'
             fullWidth
             value={productPrice}
+            title='productPrice'
             onChange={(e) => setProductPrice(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           {!hideSave ? (
             <Button
+              title='saveButton'
               variant='contained'
               onClick={handleFormSubmit}
               style={{

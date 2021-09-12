@@ -10,9 +10,9 @@
 
 @media screen and (max-width: 970px) {
   .prod {
-    background-color: #f8f8ff;
+    background-color: white;
     margin: 0 auto;
-    height: 600px;
-    width: 100%;
+    height: 400px;
+    width: 90%;
   }
 }
