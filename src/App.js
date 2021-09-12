@@ -8,7 +8,7 @@ import AddModal from './components/AddModal'
 import ConfirmationModal from './components/ConfirmationModal'
 import Toastify from './components/Toastify'
 import { toast } from 'react-toastify';
-// import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 let initData = []
 
@@ -25,8 +25,8 @@ function App() {
   const [hideSave, setHideSave] = useState(false)
   const [toastrMessage, setToastMessage] = useState('Notification')
 
-  // const dispatch = useDispatch()  
-  // const seedData = useSelector(state => products)
+  const dispatch = useDispatch()  
+  const seedData = useSelector(state => products)
   //console.log("Seed Data:" , seedData)
   
 
@@ -38,15 +38,17 @@ function App() {
       )
       const data = await result.json()
       if (data.products) {
-        data.products.map((item) => {
-          let newObj = {
+        let formattedData = data.products.map((item) => {
+          return  {
             id: item.id,
             name: item.name,
             currentPrice: item.prices[0].price,
             prevPrice: item.prices[1].price,
-          }
-          initData.push(newObj)          
+          }          
         })
+        initData = formattedData
+
+        console.log("FormattedData:" , formattedData)
         //setting copy of init data to liveData for search implementation
         setLiveData(initData)
         //setLiveData(seedData)
