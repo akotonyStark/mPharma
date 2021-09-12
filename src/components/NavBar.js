@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
+import { makeLowercase } from '../HelperFunctions/HelperFunctions'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -92,7 +93,7 @@ export default function NavBar({ setProducts, handleAddProductModal, liveData })
       setProducts(initialData)
     } else {
       filteredItems = liveData.filter((item) =>
-        item.name.toLowerCase().includes(e.target.value.toLowerCase())
+        makeLowercase(item.name).includes(makeLowercase(e.target.value))
       )
       setProducts(filteredItems)
     }
